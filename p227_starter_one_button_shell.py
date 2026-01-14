@@ -3,14 +3,33 @@ import tkinter as tk
 import tkinter.scrolledtext as tksc
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
-import platform
+import sys
 
-def do_command():
-    command = ["ping", "localhost"]
-    # Windows version to limit to 4 requests: command = ["ping", "localhost", "-n", "4"]
-    # Mac version to limit to 4 requests:     command = ["ping", "localhost", "-n", "4"]
-    
-    subprocess.run(command)
+# Modify the do_command function:
+# to use the new button as needed
+def do_command(command):
+    # Modify the do_command(command) function: 
+    # to use the text box for input to the functions
+    global command_textbox, url_entry
+
+    # If url_entry is blank, use localhost IP address 
+    url_val = url_entry.get()
+    if (len(url_val) == 0):
+        if sys.platform.startswith('win'):
+            url_val = "::1"
+        elif sys.platform == 'darwin':
+            url_val = "127.0.0.1"
+    command_textbox.delete(1.0, tk.END)
+    command_textbox.insert(tk.END, command + " working....\n")
+    command_textbox.update()
+
+    command_list = command.split() + [url_val]
+    #command_list = [command.split(), url_val]
+
+    with subprocess.Popen(command_list, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True) as p: #may not work on mac
+        for line in p.stdout:
+            command_textbox.insert(tk.END,line)
+            command_textbox.update()
 
 root = tk.Tk()
 frame = tk.Frame(root)
@@ -41,34 +60,14 @@ frame.pack()
 command_textbox = tksc.ScrolledText(frame, height=10, width=100)
 command_textbox.pack()
 
-# set up button to run the do_command function
-ping_btn = tk.Button(frame, text="ping", command=do_command)
-ping_btn.pack()
-
 # Makes the command button pass it's name to a function using lambda
-ping_btn = tk.Button(frame, text="Check to see if a URL is up and active", command=lambda:do_command("ping"))
+if sys.platform.startswith('win'):
+    ping_btn = tk.Button(frame, text="Check to see if a URL is up and active", command=lambda:do_command("ping"))        
+elif sys.platform == 'darwin':
+    ping_btn = tk.Button(frame, text="Check to see if a URL is up and active", command=lambda:do_command("ping -c 4"))
+
 ping_btn.pack()
 
-# Modify the do_command function:
-# to use the new button as needed
-def do_command(command):
-    # Modify the do_command(command) function: 
-    # to use the text box for input to the functions
-    global command_textbox, url_entry
-
-    # If url_entry is blank, use localhost IP address 
-    url_val = url_entry.get()
-    if (len(url_val) == 0):
-        # url_val = "127.0.0.1" #may not work on mac
-        url_val = "::1"
-    command_textbox.delete(1.0, tk.END)
-    command_textbox.insert(tk.END, command + " working....\n")
-    command_textbox.update()
-
-    with subprocess.Popen(command + ' ' + url_val, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True) as p: #may not work on mac
-        for line in p.stdout:
-            command_textbox.insert(tk.END,line)
-            command_textbox.update()
 
 # Save function.
 def mSave():

@@ -36,6 +36,10 @@ url_entry.pack(side=tk.LEFT)
 frame = tk.Frame(root,  bg="black") # change frame color
 frame.pack()
 
+# Adds an output box to GUI.
+command_textbox = tksc.ScrolledText(frame, height=10, width=100)
+command_textbox.pack()
+
 # set up button to run the do_command function
 ping_btn = tk.Button(frame, text="ping", command=do_command)
 ping_btn.pack()

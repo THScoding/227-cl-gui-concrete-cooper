@@ -14,6 +14,8 @@ def do_command():
 root = tk.Tk()
 frame = tk.Frame(root)
 frame.pack()
+root.wm_geometry("500x300")
+
 
 # set up button to run the do_command function
 ping_btn = tk.Button(frame, text="ping", command=do_command)

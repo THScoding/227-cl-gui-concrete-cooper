@@ -73,11 +73,11 @@ def mSave():
 
 
 save_btn = tk.Button(frame_URL, text = "Save", command= mSave)
-save_btn.grid(pady=5)
+save_btn.grid(column= 6, row = 8)
 
 # Adds an output box to GUI.
-command_textbox = tksc.ScrolledText(frame, height=15, width=120)
-command_textbox.grid()
+command_textbox = tksc.ScrolledText(frame, height=15, width=140)
+command_textbox.grid(pady= 5)
 
 # Makes the command button pass it's name to a function using lambda
 if sys.platform.startswith('win'):

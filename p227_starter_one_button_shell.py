@@ -42,13 +42,13 @@ def do_command(command):
     
 
 root = tk.Tk()
-frame = tk.Frame(root)
+frame_URL = tk.Frame(root, pady=10) # change frame color
+frame_URL.grid()
+frame = tk.Frame(root, borderwidth= 5)
 frame.grid()
 root.wm_geometry("1000x600")
 root.resizable(False, False)
 # creates the frame with label for the text box
-frame_URL = tk.Frame(root, pady=10) # change frame color
-frame_URL.grid()
 
 # decorative label
 url_label = tk.Label(frame_URL, text="Enter a URL of interest: ", 
@@ -56,9 +56,9 @@ url_label = tk.Label(frame_URL, text="Enter a URL of interest: ",
     font=("comic sans", 14),
     bd=0, 
     relief=tk.FLAT)
-url_label.grid(column=1, row= 0, columnspan= 3)
+url_label.grid(column=3, row= 1)
 url_entry= tk.Entry(frame_URL,  font=("comic sans", 14)) # change font
-url_entry.grid(column=3)
+url_entry.grid(column=5, row= 1, columnspan= 3)
 
 # Save function.
 def mSave():
@@ -72,21 +72,18 @@ def mSave():
   file.close()
 
 
-save_btn = tk.Button(text = "Save", command= mSave)
+save_btn = tk.Button(frame_URL, text = "Save", command= mSave)
 save_btn.grid(pady=5)
 
-frame = tk.Frame(root,  bg="black") # change frame color
-frame.grid()
-
 # Adds an output box to GUI.
-command_textbox = tksc.ScrolledText(frame, height=10, width=100)
+command_textbox = tksc.ScrolledText(frame, height=15, width=120)
 command_textbox.grid()
 
 # Makes the command button pass it's name to a function using lambda
 if sys.platform.startswith('win'):
-    ping_btn = tk.Button(frame, text="Check to see if a URL is up and active", command=lambda:do_command("ping"))        
+    ping_btn = tk.Button(frame_URL, text="Ping", command=lambda:do_command("ping"))        
 elif sys.platform == 'darwin':
-    ping_btn = tk.Button(frame, text="Check to see if a URL is up and active", command=lambda:do_command("ping -c 4"))
+    ping_btn = tk.Button(frame_URL, text="Ping", command=lambda:do_command("ping -c 4"))
 
 ping_btn.grid()
 

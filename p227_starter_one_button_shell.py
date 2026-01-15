@@ -47,7 +47,7 @@ frame.grid()
 root.wm_geometry("1000x600")
 root.resizable(False, False)
 # creates the frame with label for the text box
-frame_URL = tk.Frame(root, pady=10,  bg="black") # change frame color
+frame_URL = tk.Frame(root, pady=10) # change frame color
 frame_URL.grid()
 
 # decorative label
@@ -55,10 +55,7 @@ url_label = tk.Label(frame_URL, text="Enter a URL of interest: ",
     compound="center",
     font=("comic sans", 14),
     bd=0, 
-    relief=tk.FLAT, 
-    cursor="heart",
-    fg="mediumpurple3",
-    bg="black")
+    relief=tk.FLAT)
 url_label.grid(column=1, row= 0, columnspan= 3)
 url_entry= tk.Entry(frame_URL,  font=("comic sans", 14)) # change font
 url_entry.grid(column=3)

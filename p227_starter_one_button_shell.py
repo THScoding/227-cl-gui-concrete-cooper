@@ -62,6 +62,21 @@ url_label.pack(side=tk.LEFT)
 url_entry= tk.Entry(frame_URL,  font=("comic sans", 14)) # change font
 url_entry.pack(side=tk.LEFT)
 
+# Save function.
+def mSave():
+  filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))
+  if filename is None:
+    return
+  file = open (filename, mode = 'w')
+  text_to_save = command_textbox.get("1.0", tk.END)
+  
+  file.write(text_to_save)
+  file.close()
+
+
+save_btn = tk.Button(text = "Save", command= mSave)
+save_btn.pack(pady=5)
+
 frame = tk.Frame(root,  bg="black") # change frame color
 frame.pack()
 
@@ -78,15 +93,5 @@ elif sys.platform == 'darwin':
 ping_btn.pack()
 
 
-# Save function.
-def mSave():
-  filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))
-  if filename is None:
-    return
-  file = open (filename, mode = 'w')
-  text_to_save = command_textbox.get("1.0", tk.END)
-  
-  file.write(text_to_save)
-  file.close()
-            
+
 root.mainloop()

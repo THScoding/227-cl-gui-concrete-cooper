@@ -6,6 +6,7 @@ from tkinter.filedialog import asksaveasfilename
 import sys
 import platform
 
+
 def do_command(command):
     # If url_entry is blank, use localhost IP address 
     url_val = url_entry.get()
@@ -44,7 +45,7 @@ root = tk.Tk()
 frame = tk.Frame(root)
 frame.pack()
 root.wm_geometry("500x300")
-
+root.resizable(False, False)
 # creates the frame with label for the text box
 frame_URL = tk.Frame(root, pady=10,  bg="black") # change frame color
 frame_URL.pack()

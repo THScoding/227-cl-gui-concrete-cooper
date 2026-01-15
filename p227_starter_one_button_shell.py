@@ -39,10 +39,11 @@ def do_command(command):
         for line in p.stdout:
             command_textbox.insert(tk.END,line)
             command_textbox.update()
+    command_textbox.insert(tk.END, "Done")
     
 
 root = tk.Tk()
-frame_URL = tk.Frame(root, pady=10) # change frame color
+frame_URL = tk.Frame(root) # change frame color
 frame_URL.grid()
 frame = tk.Frame(root, borderwidth= 5)
 frame.grid()
@@ -56,9 +57,11 @@ url_label = tk.Label(frame_URL, text="Enter a URL of interest: ",
     font=("comic sans", 14),
     bd=0, 
     relief=tk.FLAT)
-url_label.grid(column=3, row= 1)
+url_label.grid(column=1, row= 1, columnspan= 1)
 url_entry= tk.Entry(frame_URL,  font=("comic sans", 14)) # change font
-url_entry.grid(column=5, row= 1, columnspan= 3)
+url_entry.grid(column=2, row= 1, columnspan= 3)
+button_frame = tk.Frame(frame_URL)
+button_frame.grid(row=3, column=1, columnspan=4, pady=5)
 
 # Save function.
 def mSave():
@@ -71,21 +74,42 @@ def mSave():
   file.write(text_to_save)
   file.close()
 
-
-save_btn = tk.Button(frame_URL, text = "Save", command= mSave)
-save_btn.grid(column= 6, row = 8)
-
 # Adds an output box to GUI.
 command_textbox = tksc.ScrolledText(frame, height=15, width=140)
 command_textbox.grid(pady= 5)
+show_output = tk.BooleanVar(value=True)
+def toggle():
+    if show_output.get():
+        print("showing")
+        command_textbox.grid()
+    else:
+        print("hiding")
+        command_textbox.grid_remove()
 
 # Makes the command button pass it's name to a function using lambda
 if sys.platform.startswith('win'):
-    ping_btn = tk.Button(frame_URL, text="Ping", command=lambda:do_command("ping"))        
+    ping_btn = tk.Button(button_frame, text="Ping",width=10, command=lambda:do_command("ping"))        
 elif sys.platform == 'darwin':
-    ping_btn = tk.Button(frame_URL, text="Ping", command=lambda:do_command("ping -c 4"))
+    ping_btn = tk.Button(button_frame, text="Ping",width=10, command=lambda:do_command("ping -c 4"))
+ping_btn.grid(row= 0, column= 0, padx=3)
 
-ping_btn.grid()
+Nslookup_btn = tk.Button(button_frame, text="Nslookup", width=10, command=lambda: do_command("nslookup"))
+Nslookup_btn.grid(row=0, column=1, padx=3)
+
+Netstat_btn = tk.Button(button_frame, text="Netstat", width=10, command=lambda: do_command("netstat -n"))
+Netstat_btn.grid(row=0, column=2, padx=3)
+
+if sys.platform.startswith('win'):
+    Tracert = tk.Button(button_frame, text="Tracert", width=10, command=lambda:do_command("tracert"))        
+elif sys.platform == 'darwin':
+    Tracert = tk.Button(button_frame, text="Traceroute", width=10, command=lambda:do_command("traceroute"))
+Tracert.grid(row= 1, column= 1, padx=3)
+
+save_btn = tk.Button(button_frame, text = "Save", width=10, command= mSave)
+save_btn.grid(row= 1, column= 2, padx=3)
+
+sh_cmd_txtbox = tk.Checkbutton(button_frame, text= "Show output",variable=show_output, width=10,command= toggle)
+sh_cmd_txtbox.grid(row= 1, column=0, padx=3)
 
 
 

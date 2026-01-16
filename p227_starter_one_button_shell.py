@@ -9,8 +9,7 @@ from tkinter import ttk
 
 
 
-def do_command(command, progressbar):
-    progressbar.start()
+def do_command(command):
     # If url_entry is blank, use localhost IP address 
     url_val = url_entry.get()
     if (len(url_val) == 0):
@@ -43,8 +42,7 @@ def do_command(command, progressbar):
             command_textbox.insert(tk.END,line)
             command_textbox.update()
     command_textbox.insert(tk.END, "Done")
-    progressbar.end()
-    
+
 
 root = tk.Tk()
 frame_URL = tk.Frame(root) # change frame color
@@ -115,7 +113,5 @@ save_btn.grid(row= 1, column= 2, padx=3)
 sh_cmd_txtbox = tk.Checkbutton(button_frame, text= "Show output",variable=show_output, width=10,command= toggle)
 sh_cmd_txtbox.grid(row= 1, column=0, padx=3)
 
-loading_bar = ttk.Progressbar(frame, orient="horizontal", length= 150, mode= "indeterminate")
-loading_bar.grid()
 
 root.mainloop()
